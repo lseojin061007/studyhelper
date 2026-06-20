@@ -31,6 +31,7 @@ export async function POST(req: Request) {
 1. 업로드된 파일들의 내용을 분석해서, 각 단원별로 시험에서 꼭 나올 만한 핵심 포인트나 중요한 것들을 요약해 줘.
 2. 남은 기간(D-${dDay})과 목표 성적(${targetGrade})을 고려해서 최고의 효율을 낼 수 있는 구체적인 공부 전략과 조언을 카카오톡에서 친구에게 말해주듯이 친근하고 따뜻한 어투(해요체/해체 적절히 섞어서)로 작성해 줘. 너무 딱딱하지 않게 이모지도 적절히 써줘!`;
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const parts: any[] = [{ text: prompt }];
 
     for (const file of files) {
@@ -55,10 +56,11 @@ export async function POST(req: Request) {
     });
 
     return NextResponse.json({ reply: response.text });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Gemini API Error:", error);
+    const message = error instanceof Error ? error.message : "Unknown error";
     return NextResponse.json(
-      { error: "분석 중 오류가 발생했습니다.", details: error.message },
+      { error: "분석 중 오류가 발생했습니다.", details: message },
       { status: 500 }
     );
   }

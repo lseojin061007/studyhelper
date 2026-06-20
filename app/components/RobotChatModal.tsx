@@ -67,9 +67,10 @@ export default function RobotChatModal({ isOpen, onClose }: RobotChatModalProps)
 
       setMessages(prev => [...prev, { id: Date.now().toString(), sender: "robot", text: data.reply }]);
       setFiles([]); // 전송 후 파일 초기화
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error(error);
-      setMessages(prev => [...prev, { id: Date.now().toString(), sender: "robot", text: `미안해, 분석 중에 오류가 발생했어. (${error.message})` }]);
+      const message = error instanceof Error ? error.message : "알 수 없는 오류 발생";
+      setMessages(prev => [...prev, { id: Date.now().toString(), sender: "robot", text: `미안해, 분석 중에 오류가 발생했어. (${message})` }]);
     } finally {
       setIsTyping(false);
     }
@@ -131,7 +132,7 @@ export default function RobotChatModal({ isOpen, onClose }: RobotChatModalProps)
             <div className="flex gap-2 text-sm">
               <select 
                 value={subjectType} 
-                onChange={e => setSubjectType(e.target.value as any)}
+                onChange={e => setSubjectType(e.target.value as unknown as "전공" | "교양")}
                 className="bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 rounded-lg px-2 py-2 outline-none focus:ring-2 focus:ring-[#fae100]"
               >
                 <option value="전공">전공</option>

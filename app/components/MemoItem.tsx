@@ -54,7 +54,7 @@ export default function MemoItem({ memo, index, onDelete, onUpdate }: MemoItemPr
         >
           <motion.div
             layoutId={memo.id}
-            initial={{ scale: 0.5, opacity: 0, rotate: Math.random() * 20 - 10 }}
+            initial={{ scale: 0.5, opacity: 0, rotate: index % 2 === 0 ? 5 : -5 }}
             animate={{ scale: 1, opacity: 1, rotate: snapshot.isDragging ? 5 : 0 }}
             exit={{ scale: 0.8, opacity: 0 }}
             whileHover={{ scale: 1.05, zIndex: 10 }}

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Plus, Filter, ClipboardList, BookOpen, Calendar as CalendarIcon, X } from "lucide-react";
+import { Plus, Filter, ClipboardList, BookOpen, Calendar as CalendarIcon } from "lucide-react";
 import { DragDropContext, Droppable, DropResult } from "@hello-pangea/dnd";
 import MemoItem, { Memo, Category, Color } from "../components/MemoItem";
 import {
@@ -42,8 +42,11 @@ export default function PlanPage() {
         const parsedMemos: Memo[] = JSON.parse(saved);
         // Load 시점에 오전 5시 이전 메모는 전부 버림(영구 삭제)
         const activeMemos = parsedMemos.filter(m => m.createdAt >= recent5AM);
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         setMemos(activeMemos);
-      } catch (e) {}
+      } catch {
+        // ignore error
+      }
     }
     
     setIsLoaded(true);

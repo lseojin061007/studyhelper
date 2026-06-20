@@ -15,6 +15,7 @@ export default function Timer() {
         setTimeLeft((prev) => prev - 1);
       }, 1000);
     } else if (isRunning && timeLeft === 0) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setIsRunning(false);
       if (audioRef.current) {
         audioRef.current.play().catch(console.error);
